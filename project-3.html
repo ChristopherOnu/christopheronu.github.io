@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAY Property — Operations System — Case Study | Christopher Onu</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #a07830;
+    --cyan: #4fc3f7;
+    --cyan-dark: #0288d1;
+    --navy: #0a0f1a;
+    --navy-light: #111827;
+    --navy-mid: #1a2438;
+    --white: #ffffff;
+    --gray: #888888;
+    --light-gray: #f5f5f5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background-color: var(--navy); color: var(--white); overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 60px;
+    background: rgba(10, 15, 26, 0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--gold); letter-spacing: 2px; text-decoration: none; }
+  .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--gray); text-decoration: none; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta { background: var(--gold) !important; color: var(--navy) !important; padding: 10px 24px !important; border-radius: 2px; font-weight: 600 !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* HERO */
+  #home { min-height: 100vh; display: flex; align-items: center; padding: 120px 60px 60px; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(79,195,247,0.05) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(201,168,76,0.05) 0%, transparent 50%); }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+  .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; width: 100%; }
+  .clock-widget { position: absolute; top: 140px; left: 60px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); border-radius: 8px; padding: 16px 24px; text-align: center; backdrop-filter: blur(10px); }
+  #clock { font-family: 'DM Sans', monospace; font-size: 28px; font-weight: 600; color: var(--gold); letter-spacing: 2px; }
+  #date { font-size: 13px; color: var(--gray); margin-top: 4px; letter-spacing: 1px; }
+  .hero-image { display: flex; justify-content: center; align-items: center; order: -1; }
+  .profile-ring { position: relative; width: 380px; height: 380px; }
+  .profile-ring::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; background: conic-gradient(var(--gold), var(--cyan), var(--gold-dark), var(--cyan-dark), var(--gold)); animation: spin 8s linear infinite; z-index: 0; }
+  .profile-ring::after { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: var(--navy); z-index: 1; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .profile-img { position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: top center; }
+  .hero-text { animation: slideUp 0.8s ease; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-label { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .hero-label::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .hero-headline { font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 700; line-height: 1.1; margin-bottom: 24px; }
+  .hero-headline .typing-wrapper { display: block; color: var(--gold); min-height: 1.1em; }
+  #typed-text { color: var(--cyan); }
+  .cursor { display: inline-block; width: 3px; height: 0.9em; background: var(--gold); margin-left: 4px; animation: blink 0.7s infinite; vertical-align: middle; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero-sub { font-size: 17px; color: var(--gray); line-height: 1.7; margin-bottom: 40px; max-width: 500px; }
+  .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
+  .btn-primary { background: var(--gold); color: var(--navy); padding: 16px 36px; border: none; border-radius: 2px; font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
+  .btn-secondary { background: transparent; color: var(--white); padding: 16px 36px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+  .hero-stats { display: flex; gap: 40px; margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .stat-item { text-align: center; }
+  .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 700; color: var(--gold); display: block; }
+  .stat-label { font-size: 12px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+  /* SECTION COMMONS */
+  .section-wrapper { padding: 100px 60px; }
+  .section-wrapper.dark { background: var(--navy-light); }
+  .section-wrapper.mid { background: var(--navy-mid); }
+  .section-inner { max-width: 1300px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 70px; }
+  .section-label { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .section-label::before, .section-label::after { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+  .section-subtitle { font-size: 16px; color: var(--gray); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+  .gold-divider { width: 60px; height: 2px; background: linear-gradient(90deg, var(--gold), var(--cyan)); margin: 0 auto 24px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-text p { font-size: 15px; color: var(--gray); line-height: 1.8; margin-bottom: 16px; }
+  .about-text p span { color: var(--gold); }
+  .about-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+  .highlight-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--white); }
+  .highlight-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  /* SKILLS */
+  .skills-wrap { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .skill-card { background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; padding: 28px 22px; transition: all 0.3s; position: relative; overflow: hidden; }
+  .skill-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--cyan)); transform: scaleX(0); transition: transform 0.3s; }
+  .skill-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+  .skill-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .skill-desc { font-size: 12px; color: var(--gray); line-height: 1.5; }
+
+  /* TOOLS SECTION */
+  .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 10px; }
+  .tool-category { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.15); border-radius: 10px; padding: 28px 24px; transition: all 0.3s; }
+  .tool-category:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-3px); }
+  .tool-cat-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .tool-cat-title::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool-tag { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2); color: var(--white); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; transition: all 0.3s; }
+  .tool-tag:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+  .tool-tag.cyan { background: rgba(79,195,247,0.08); border-color: rgba(79,195,247,0.2); }
+  .tool-tag.cyan:hover { background: rgba(79,195,247,0.2); border-color: var(--cyan); }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .service-card { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; padding: 38px 30px; transition: all 0.3s; position: relative; }
+  .service-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .service-number { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 700; color: rgba(201,168,76,0.08); position: absolute; top: 16px; right: 20px; line-height: 1; }
+  .service-icon { font-size: 38px; margin-bottom: 18px; display: block; }
+  .service-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+  .service-desc { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* PORTFOLIO */
+  .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .project-card { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.15); border-radius: 12px; overflow: hidden; transition: all 0.3s; }
+  .project-card:hover { border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .project-placeholder { width: 100%; height: 220px; background: linear-gradient(135deg, var(--navy-mid), var(--navy-light)); display: flex; align-items: center; justify-content: center; font-size: 56px; }
+  .project-body { padding: 28px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tag { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .tag.cyan { background: rgba(79,195,247,0.1); border-color: rgba(79,195,247,0.3); color: var(--cyan); }
+  .tag.green { background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.3); color: #34d399; }
+  .project-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .project-desc { font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 22px; }
+  .project-links { display: flex; gap: 16px; }
+  .project-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-decoration: none; transition: all 0.3s; text-transform: uppercase; }
+  .project-link.gold { color: var(--gold); }
+  .project-link.gold:hover { color: var(--gold-light); }
+  .project-link.cyan { color: var(--cyan); }
+  .project-link.cyan:hover { color: #81d4fa; }
+
+  /* PROJECT DETAIL PAGE */
+  .project-detail { display: none; position: fixed; inset: 0; background: var(--navy); z-index: 2000; overflow-y: auto; padding: 0; }
+  .project-detail.active { display: block; }
+  .detail-nav { position: sticky; top: 0; background: rgba(10,15,26,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.2); padding: 20px 60px; display: flex; align-items: center; gap: 20px; z-index: 10; }
+  .back-btn { background: none; border: 1px solid rgba(201,168,76,0.3); color: var(--gold); padding: 10px 20px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: all 0.3s; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 8px; }
+  .back-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+  .detail-header { padding: 80px 60px 60px; max-width: 1000px; margin: 0 auto; }
+  .detail-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .detail-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+  .detail-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .detail-overview { font-size: 16px; color: var(--gray); line-height: 1.8; padding: 28px; background: var(--navy-light); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; margin-bottom: 60px; }
+  .detail-body { padding: 0 60px 80px; max-width: 1000px; margin: 0 auto; }
+  .detail-section { margin-bottom: 56px; }
+  .detail-section-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .detail-section-title::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,0.2); }
+  .detail-section p { font-size: 15px; color: var(--gray); line-height: 1.8; margin-bottom: 12px; }
+  .detail-section ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .detail-section ul li { font-size: 14px; color: var(--gray); line-height: 1.6; display: flex; gap: 12px; }
+  .detail-section ul li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+  .subsystem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 8px; }
+  .subsystem-card { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; padding: 24px 20px; }
+  .subsystem-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .subsystem-title span { font-size: 18px; }
+  .subsystem-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .subsystem-card ul li { font-size: 12px; color: var(--gray); display: flex; gap: 8px; line-height: 1.5; }
+  .subsystem-card ul li::before { content: '·'; color: var(--gold); flex-shrink: 0; font-size: 16px; line-height: 1.2; }
+  .tools-used { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tool-badge { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.25); color: var(--white); padding: 8px 18px; border-radius: 4px; font-size: 13px; font-weight: 500; }
+  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; border: 1px solid rgba(201,168,76,0.2); }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .screenshots-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+  .screenshot-item { border-radius: 8px; overflow: hidden; border: 1px solid rgba(201,168,76,0.15); }
+  .screenshot-label { background: var(--navy-mid); padding: 12px 20px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .screenshot-item img { width: 100%; display: block; }
+
+  /* REVIEWS */
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .review-card { background: var(--navy-light); border: 1px solid rgba(201,168,76,0.15); border-radius: 10px; padding: 36px 28px; position: relative; transition: all 0.3s; }
+  .review-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
+  .review-quote { font-size: 48px; color: var(--gold); line-height: 1; margin-bottom: 16px; opacity: 0.4; font-family: Georgia, serif; }
+  .review-text { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 28px; font-style: italic; }
+  .review-author { display: flex; align-items: center; gap: 14px; }
+  .review-avatar { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--cyan-dark)); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--navy); flex-shrink: 0; }
+  .review-name { font-size: 14px; font-weight: 600; color: var(--white); }
+  .review-title { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .review-stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 4px; }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+  .contact-info p { font-size: 15px; color: var(--gray); line-height: 1.8; margin-bottom: 36px; }
+  .contact-items { display: flex; flex-direction: column; gap: 16px; }
+  .contact-item { display: flex; align-items: center; gap: 14px; padding: 18px; background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.15); border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+  .contact-item:hover { border-color: var(--gold); transform: translateX(4px); }
+  .contact-icon { width: 44px; height: 44px; background: rgba(201,168,76,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .contact-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+  .contact-value { font-size: 14px; color: var(--white); margin-top: 3px; font-weight: 500; }
+  .cta-box { background: linear-gradient(135deg, var(--navy-mid), var(--navy)); border: 1px solid rgba(201,168,76,0.3); border-radius: 12px; padding: 48px 40px; text-align: center; position: relative; overflow: hidden; }
+  .cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--cyan), var(--gold)); }
+  .cta-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--white); margin-bottom: 14px; }
+  .cta-box p { font-size: 14px; color: var(--gray); line-height: 1.7; margin-bottom: 28px; }
+
+  /* FOOTER */
+  footer { background: var(--navy); border-top: 1px solid rgba(201,168,76,0.2); padding: 40px 60px; }
+  .footer-inner { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-weight: 700; letter-spacing: 2px; }
+  .footer-text { font-size: 13px; color: var(--gray); }
+  .footer-text span { color: var(--gold); }
+
+  /* WHATSAPP */
+  .whatsapp-btn { position: fixed; bottom: 32px; right: 32px; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: all 0.3s; z-index: 999; animation: pulse 2s infinite; }
+  .whatsapp-btn:hover { transform: scale(1.1); }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); } }
+
+/* Show the detail page normally on this standalone page */
+.project-detail { display: block !important; position: static !important; overflow: visible !important; }
+
+.project-detail { display: block !important; position: static !important; overflow: visible !important; }
+</style>
+</head>
+<body>
+<div class="project-detail" id="project-detail-3">
+  <div class="detail-nav">
+    <button class="back-btn" onclick="window.location.href='index.html#portfolio'">← Back to Portfolio</button>
+    <span style="color:var(--gray);font-size:13px;">KAY Property — Operations System</span>
+  </div>
+  <div class="detail-header">
+    <div class="detail-label">Case Study · Monday.com · Real Estate</div>
+    <h1 class="detail-title">KAY Property — Operations System</h1>
+    <div class="detail-tags"><span class="tag">Monday.com</span><span class="tag cyan">Workflow Automation</span><span class="tag green">Real Estate</span><span class="tag green">Operations</span></div>
+    <div class="detail-overview">Built a fully structured Monday.com operations system for KAY Property, a buyer's advocacy business operating across two arms: local purchases in Geelong and Melbourne, and interstate investment purchases. The build consolidated client-facing property tracking, internal process management, and investment market research into a set of purpose-built boards that the team can maintain and update without any technical overhead.</div>
+  </div>
+
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">The Problem</div>
+      <p>KAY Property was already using Monday.com but their board structure had grown without clear design, making it hard for the team to move fast and hard for clients to follow along. They needed three distinct operational layers working together: a client-facing view of properties being tracked, an internal checklist covering every step from onboarding to post-settlement, and a research board for storing and updating investment market data across states and cities. Without the right structure, columns, and automations in place, the team was doing a lot of manual work to keep things consistent.</p>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">The Solution</div>
+      <p>Redesigned and built out the full Monday.com workspace from scratch with a clean, standardised board structure across all three layers. Client Property Observation Boards were built for both business arms, giving clients a clear, professional view of every property being tracked on their behalf. Internal Client Process Checklist Boards were built separately for each arm, mapping every step from terms of engagement through to post-settlement gifting. The investment arm's checklist included additional steps specific to interstate acquisitions. The Investment Insights Board was set up as a structured research database covering key market metrics across states, cities, and local government areas. Correct column types were applied across every board, status workflows were standardised, and automations were configured to reduce manual follow-up for the team.</p>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Key Features</div>
+      <ul>
+        <li>Client-facing Property Observation Boards for both business arms, tracking campaign type, price range, auction dates, rental yield, real estate links, documents, status labels, and media</li>
+        <li>Internal Process Checklist Boards tracking every milestone from onboarding through to post-settlement, with investment-specific steps added for the interstate arm including suburb reports, investment strategy documents, and rental appraisals</li>
+        <li>Investment Insights Board storing market research data including vacancy rates, rental yields, 10-year capital growth, affordability index, days on market, incoming supply, demographics, and IRSAD scores</li>
+        <li>Standardised column types across all boards covering numbers, dates, status dropdowns, file uploads, and URL links for data accuracy</li>
+        <li>Consistent status workflows built across boards so the team always knows where each client or property stands</li>
+        <li>Automations configured to trigger reminders and notifications on status changes and key milestone completions</li>
+        <li>Loom walkthrough documenting the full setup and how to use each board</li>
+      </ul>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Tools Used</div>
+      <div class="tools-used">
+        <span class="tool-badge">Monday.com</span>
+        <span class="tool-badge">Monday.com Automations</span>
+        <span class="tool-badge">Loom</span>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">Results & Impact</div>
+      <p>KAY Property went from a Monday.com setup that had outgrown itself to a clean, intentional system built around how their business actually operates. Clients now have a professional, easy-to-read view of their property search without needing to chase the team for updates. Internally, nothing gets missed across a long settlement process because every step is mapped and tracked. The investment research board gives the team a single place to store and reference market data rather than digging through spreadsheets or documents. The whole system was handed over with documentation so the team can maintain it independently going forward.</p>
+    </div>
+    
+    <div class="detail-section">
+      <div class="detail-section-title">Video Walkthrough</div>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/XxcYVlbysKU" title="KAY Property — Operations System Walkthrough" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Screenshots</div>
+      <div class="screenshots-grid">
+        <div class="screenshot-item">
+          <div class="screenshot-label">Client Property Observation Board — Local Arm (Geelong & Melbourne)</div>
+          <img src="images/kay-property-screenshot1.png.png" alt="Screenshot 1 — [Label]">
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-label">Internal Process Checklist Board — Investment Arm</div>
+          <img src="images/kay-property-screenshot2.png.png" alt="Screenshot 2 — [Label]">
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-label">Investment Insights Board — Market Research Database</div>
+          <img src="images/kay-property-screenshot3.png.png" alt="Screenshot 3 — [Label]">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
